@@ -21,12 +21,16 @@ export class ProductsController {
 
   @Get()
   async getProducts(@Res() res: Response): Promise<ProductI[]> {
-    const products = await this.productsService.getProducts();
-    res.status(HttpStatus.OK).json({
-      message: 'Products',
-      products,
-    });
-    return products;
+    try {
+      const products: ProductI[] = await this.productsService.getProducts();
+      res.status(HttpStatus.OK).json({
+        message: 'Products',
+        products,
+      });
+      return products;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @Get(':id')
@@ -34,12 +38,16 @@ export class ProductsController {
     @Param('id') id: 'id',
     @Res() res: Response,
   ): Promise<ProductI> {
-    const product = await this.productsService.getProduct(id);
-    res.status(HttpStatus.OK).json({
-      message: 'Product',
-      product,
-    });
-    return product;
+    try {
+      const product: ProductI = await this.productsService.getProduct(id);
+      res.status(HttpStatus.OK).json({
+        message: 'Product',
+        product,
+      });
+      return product;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @Post()
@@ -47,12 +55,18 @@ export class ProductsController {
     @Body() productDto: CreateProductDto,
     @Res() res: Response,
   ): Promise<ProductI> {
-    const newProduct = await this.productsService.createProduct(productDto);
-    res.status(HttpStatus.OK).json({
-      message: 'New product',
-      product: newProduct,
-    });
-    return newProduct;
+    try {
+      const newProduct: ProductI = await this.productsService.createProduct(
+        productDto,
+      );
+      res.status(HttpStatus.OK).json({
+        message: 'New product',
+        product: newProduct,
+      });
+      return newProduct;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @Put(':id')
@@ -61,26 +75,37 @@ export class ProductsController {
     @Body() productDto: UpdateProductDto,
     @Res() res: Response,
   ): Promise<ProductI> {
-    const updateProduct = await this.productsService.updateProduct(
-      id,
-      productDto,
-    );
-    res.status(HttpStatus.OK).json({
-      message: 'Update product',
-      product: updateProduct,
-    });
-    return updateProduct;
+    try {
+      const updateProduct: ProductI = await this.productsService.updateProduct(
+        id,
+        productDto,
+      );
+      res.status(HttpStatus.OK).json({
+        message: 'Update product',
+        product: updateProduct,
+      });
+      return updateProduct;
+    } catch (e) {
+      console.log(e);
+    }
   }
+
   @Delete(':id')
   async deleteProduct(
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<ProductI> {
-    const deleteProduct = await this.productsService.deleteProduct(id);
-    res.status(HttpStatus.OK).json({
-      message: 'Update product',
-      product: deleteProduct,
-    });
-    return deleteProduct;
+    try {
+      const deleteProduct: ProductI = await this.productsService.deleteProduct(
+        id,
+      );
+      res.status(HttpStatus.OK).json({
+        message: 'Update product',
+        product: deleteProduct,
+      });
+      return deleteProduct;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

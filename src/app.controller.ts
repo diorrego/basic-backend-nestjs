@@ -9,13 +9,23 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@Request() req): Promise<{ accesss_token: string }> {
+    try {
+      const login = await this.authService.login(req.user);
+      return login;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  async profile(@Request() req) {
-    return req.user;
+  profile(@Request() req) {
+    try {
+      const user = req.user;
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

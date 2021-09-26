@@ -21,22 +21,30 @@ export class UsersController {
 
   @Get()
   async getUsers(@Res() res: Response): Promise<UserI[]> {
-    const users = await this.usersService.getUsers();
-    res.status(HttpStatus.OK).json({
-      message: 'Users',
-      users,
-    });
-    return users;
+    try {
+      const users: UserI[] = await this.usersService.getUsers();
+      res.status(HttpStatus.OK).json({
+        message: 'Users',
+        users,
+      });
+      return users;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @Get(':id')
   async getUser(@Param('id') id: 'id', @Res() res: Response): Promise<UserI> {
-    const user = await this.usersService.getUser(id);
-    res.status(HttpStatus.OK).json({
-      message: 'User',
-      user,
-    });
-    return user;
+    try {
+      const user: UserI = await this.usersService.getUser(id);
+      res.status(HttpStatus.OK).json({
+        message: 'User',
+        user,
+      });
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @Post()
@@ -44,13 +52,17 @@ export class UsersController {
     @Body() createUserDto: CreateUserDto,
     @Res() res: Response,
   ): Promise<UserI> {
-    const newUser = await this.usersService.createUser(createUserDto);
-    console.log(newUser);
-    res.status(HttpStatus.OK).json({
-      message: 'New user',
-      user: newUser,
-    });
-    return newUser;
+    try {
+      const newUser: UserI = await this.usersService.createUser(createUserDto);
+      console.log(newUser);
+      res.status(HttpStatus.OK).json({
+        message: 'New user',
+        user: newUser,
+      });
+      return newUser;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @Put(':id')
@@ -59,23 +71,32 @@ export class UsersController {
     @Body() userDto: UpdateUserDto,
     @Res() res: Response,
   ): Promise<UserI> {
-    const updateUser = await this.usersService.updateUser(id, userDto);
-    res.status(HttpStatus.OK).json({
-      message: 'Update user',
-      user: updateUser,
-    });
-    return updateUser;
+    try {
+      const updateUser: UserI = await this.usersService.updateUser(id, userDto);
+      res.status(HttpStatus.OK).json({
+        message: 'Update user',
+        user: updateUser,
+      });
+      return updateUser;
+    } catch (e) {
+      console.log(e);
+    }
   }
+
   @Delete(':id')
   async deleteUser(
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<UserI> {
-    const deleteUser = await this.usersService.deleteUser(id);
-    res.status(HttpStatus.OK).json({
-      message: 'Update user',
-      user: deleteUser,
-    });
-    return deleteUser;
+    try {
+      const deleteUser: UserI = await this.usersService.deleteUser(id);
+      res.status(HttpStatus.OK).json({
+        message: 'Update user',
+        user: deleteUser,
+      });
+      return deleteUser;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
